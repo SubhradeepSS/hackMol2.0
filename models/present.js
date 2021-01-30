@@ -79,12 +79,7 @@ const presentSchema = new Schema(
       type: Schema.Types.Decimal128,
       required: true,
     },
-    history: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Present",
-      },
-    ],
+
     extraCurricular: [
       {
         type: Schema.Types.ObjectId,
