@@ -1,14 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const presentSchema = require("./present");
+
 const studentSchema = new Schema(
   {
     name: {
       type: String,
       required: true,
     },
+
     goingClass: Number,
+
     stream: String,
+
     address: {
       district: {
         type: String,
@@ -27,36 +32,38 @@ const studentSchema = new Schema(
         required: true,
       },
     },
+
     number: {
       type: Number,
       required: true,
     },
+
     email: {
       type: Schema.Types.String,
       required: true,
     },
+
     aadhar: {
       type: Number,
       required: true,
     },
+
     dob: {
       type: Schema.Types.Date,
       required: true,
     },
+
     gender: {
       type: String,
       required: true,
     },
+
     FamilyIncome: {
       type: Number,
       required: true,
     },
-    history: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Present",
-      },
-    ],
+
+    history: [presentSchema],
   },
   { timestamps: true }
 );

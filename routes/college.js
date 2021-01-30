@@ -19,7 +19,7 @@
 
 // POST /update-student
 // {
-//     Present:
+//     present:
 //     aadhar
 // }
 
