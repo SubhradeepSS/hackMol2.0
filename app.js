@@ -10,7 +10,8 @@ const authRoutes = require("./routes/auth");
 const studentRoutes = require("./routes/student");
 const collegeRoutes = require("./routes/college");
 const detailsRoutes = require("./routes/extraDetails")
-
+const acadDetailsRoutes = require("./routes/acadDetails")
+const moneyDetailsRoutes = require("./routes/moneyDetails")
 
 const app = express();
 
@@ -57,6 +58,8 @@ app.use("/college", studentRoutes);
 app.use("/feed", feedRoutes);
 app.use("/auth", authRoutes);
 app.use("/college", detailsRoutes);
+app.use("/college", acadDetailsRoutes);
+app.use("/college", moneyDetailsRoutes);
 
 app.use((error, req, res, next) => {
     console.log(error);
