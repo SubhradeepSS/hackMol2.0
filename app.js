@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 const feedRoutes = require("./routes/feed");
 const authRoutes = require("./routes/auth");
 const studentRoutes = require("./routes/student");
-
+const collegeRoutes = require("./routes/college");
 const app = express();
 
 const fileStorage = multer.diskStorage({
@@ -31,6 +31,7 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
+
 // app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
 app.use(bodyParser.json()); // application/json
 app.use(cookieParser());
@@ -38,7 +39,6 @@ app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
 );
 app.use("/images", express.static(path.join(__dirname, "images")));
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -49,6 +49,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/", collegeRoutes);
 app.use("/college", studentRoutes);
 app.use("/feed", feedRoutes);
 app.use("/auth", authRoutes);

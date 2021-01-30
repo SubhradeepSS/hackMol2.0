@@ -6,15 +6,15 @@ const ResultSchema = require("./result");
 
 const presentSchema = new Schema(
   {
-    // collegeId: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "College",
-    // },
+    collegeId: {
+      type: Schema.Types.ObjectId,
+      ref: "College",
+    },
 
-    // collegeName: {
-    //   type: String,
-    //   required: true,
-    // },
+    collegeName: {
+      type: String,
+      required: true,
+    },
 
     year: {
       type: Number,
