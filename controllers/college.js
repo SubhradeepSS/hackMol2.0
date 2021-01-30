@@ -8,8 +8,6 @@ exports.createCollege = async (req, res, next) => {
     const college = await new College({ name, address });
     await college.save();
 
-    console.log(college);
-
     return res.status(201).json({
       success: true,
       message: "College created successfully!",
