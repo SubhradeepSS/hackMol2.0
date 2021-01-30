@@ -61,9 +61,10 @@ app.use((req, res) => {
 
 mongoose
   .connect(
-    'mongodb://localhost:27017/hackhaton'
+    'mongodb://localhost:27017/hackhaton', { useUnifiedTopology: true,  useNewUrlParser: true } 
   )
   .then(result => {
+    console.log("Database connected")
     app.listen(8080);
   })
   .catch(err => console.log(err));
