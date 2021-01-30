@@ -9,7 +9,8 @@ exports.createStudent = async (req, res, next) => {
       student: student,
     });
   } catch (err) {
-    res.status(500).send("SOMETHING WENT WRONG!!");
+    if (err.message) res.status(500).json({ message: err.message });
+    else res.status(500).json({ message: "Something Went Wrong!" });
   }
 };
 
@@ -35,7 +36,7 @@ exports.updateStudentHistory = async (req, res, next) => {
       student: student,
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).send("SOMETHING WENT WRONG!!");
+    if (err.message) res.status(500).json({ message: err.message });
+    else res.status(500).json({ message: "Something Went Wrong!" });
   }
 };
