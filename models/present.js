@@ -19,12 +19,12 @@ const presentSchema = new Schema(
     stream: String,
 
     feesPaid: {
-      type: Schema.Types.Decimal128,
+      type: Number,
       required: true,
     },
 
     attendance: {
-      type: Schema.Types.Decimal128,
+      type: Number,
       required: true,
     },
     doa: {
@@ -76,7 +76,7 @@ const presentSchema = new Schema(
       required: true,
     },
     FamilyIncome: {
-      type: Schema.Types.Decimal128,
+      type: Number,
       required: true,
     },
 

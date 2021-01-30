@@ -48,7 +48,7 @@ const studentSchema = new Schema(
       required: true,
     },
     FamilyIncome: {
-      type: Schema.Types.Decimal128,
+      type: Number,
       required: true,
     },
     history: [

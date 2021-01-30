@@ -19,6 +19,26 @@
 
 // POST /update-student
 // {
-//     Present,
+//     Present:
 //     aadhar
+// }
+
+// GET /student-details/<aadharNumber>
+// response : Student schema along with embeded schema populated
+
+// POST /sort-details-extra/
+// {
+// gender: M/F,
+// collegeId:,
+// tag:{
+//  title,
+// },
+// }
+
+// POST /sort-details-academic/
+// {
+//   gender
+//   collegeId
+//   subjects
+//   anualIncome(Values <= anualIncome);
 // }
