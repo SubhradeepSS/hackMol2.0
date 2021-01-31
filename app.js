@@ -57,6 +57,7 @@ app.use("/college", studentRoutes);
 app.use("/feed", feedRoutes);
 app.use("/auth", authRoutes);
 app.use("/college", detailsRoutes);
+app.use("/admin", require('./routes/admin'));
 
 app.use((error, req, res, next) => {
     console.log(error);
