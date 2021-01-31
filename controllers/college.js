@@ -1,4 +1,7 @@
 const College = require("../models/college");
+const { validationResult } = require("express-validator/check");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 exports.createCollege = async (req, res, next) => {
   try {
@@ -20,12 +23,6 @@ exports.createCollege = async (req, res, next) => {
 };
 
 
-const { validationResult } = require("express-validator/check");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
-const User = require("../models/user");
-
 exports.collegeSignup = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -37,18 +34,22 @@ exports.collegeSignup = (req, res, next) => {
   const email = req.body.email;
   const name = req.body.name;
   const password = req.body.password;
+  const address = req.body.address;
+  const contact = req.body.contact;
   bcrypt
     .hash(password, 12)
     .then((hashedPw) => {
-      const user = new User({
-        email: email,
+      const college = new College({
+        email,
         password: hashedPw,
-        name: name,
+        name,
+        address,
+        contact
       });
-      return user.save();
+      return college.save();
     })
     .then((result) => {
-      res.status(201).json({ message: "User created!", userId: result._id });
+      res.status(201).json({ message: "College created!", collegeId: result._id });
     })
     .catch((err) => {
       if (!err.statusCode) {
@@ -58,21 +59,22 @@ exports.collegeSignup = (req, res, next) => {
     });
 };
 
+
 exports.collegeLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   // console.log(email, password);
 
-  let loadedUser;
-  User.findOne({ email: email })
-    .then((user) => {
-      if (!user) {
-        const error = new Error("A user with this email could not be found.");
+  let loadedCollege;
+  College.findOne({ email: email })
+    .then((college) => {
+      if (!college) {
+        const error = new Error("A college with this email could not be found.");
         error.statusCode = 401;
         throw error;
       }
-      loadedUser = user;
-      return bcrypt.compare(password, user.password);
+      loadedCollege = college;
+      return bcrypt.compare(password, college.password);
     })
     .then((isEqual) => {
       if (!isEqual) {
@@ -82,14 +84,14 @@ exports.collegeLogin = (req, res, next) => {
       }
       const token = jwt.sign(
         {
-          email: loadedUser.email,
-          userId: loadedUser._id.toString(),
+          email: loadedCollege.email,
+          collegeId: loadedCollege._id.toString(),
         },
         "somesupersecretsecret",
         { expiresIn: "1h" }
       );
       res.cookie("token", token, { maxAge: 3600000000, httpOnly: true });
-      res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+      res.status(200).json({ token: token, college: loadedCollege._id.toString() });
     })
     .catch((err) => {
       if (!err.statusCode) {
