@@ -1,20 +1,19 @@
 const Student = require("../models/student");
 
 
-exports.getExtraDetails = async(req, res, next) => {
+exports.getMoneyDetails = async(req, res, next) => {
     try {
         const details = req.body;
         const gender = details.gender
         const collegeId = details.collegeId
-        const tag = details.tag
-        const title = details.title
+        const lessThan = details.lessThan
 
+        // add sorting based on marks using aggregate here also
         const list = await Student.find({
-            "history.extraCurricular.tag": tag,
-            "history.extraCurricular.title": title,
             "gender": gender,
             "history.collegeId": collegeId,
-        }).sort({ "history.extraCurricular.rating": 1 })
+            "FamilyIncome": { $lt: lessThan },
+        })
         res.status(201).json({
             message: "Post created successfully!",
             list: list,
