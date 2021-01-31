@@ -35,7 +35,6 @@ exports.getExtraDetails = async(req, res, next) => {
                             levelFactor = 2;
                         if (strComp == "school")
                             levelFactor = 1;
-                        console.log(levelFactor);
                         aTemp += (a.history[i].extraCurricular[j].rating * levelFactor);
                     }
                     if (k > 0) {
