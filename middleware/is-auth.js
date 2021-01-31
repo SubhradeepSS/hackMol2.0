@@ -4,6 +4,7 @@ module.exports = (req, res, next) => {
   let decodedToken;
   try {
     decodedToken = req.cookies.token;
+    console.log(decodedToken);
     decodedToken = jwt.verify(decodedToken, "somesupersecretsecret");
   } catch (err) {
     err.statusCode = 500;
@@ -14,6 +15,8 @@ module.exports = (req, res, next) => {
     error.statusCode = 401;
     throw error;
   }
-  req.userId = decodedToken.userId;
+  if (decodedToken.userId) req.userId = decodedToken.userId;
+  else req.collegeId = decodedToken.collegeId;
+
   next();
 };

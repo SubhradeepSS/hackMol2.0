@@ -1,7 +1,4 @@
 const College = require("../models/college");
-const { validationResult } = require("express-validator/check");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
 exports.createCollege = async (req, res, next) => {
   try {
@@ -22,6 +19,11 @@ exports.createCollege = async (req, res, next) => {
   }
 };
 
+const { validationResult } = require("express-validator/check");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const User = require("../models/user");
 
 exports.collegeSignup = (req, res, next) => {
   const errors = validationResult(req);
@@ -34,22 +36,18 @@ exports.collegeSignup = (req, res, next) => {
   const email = req.body.email;
   const name = req.body.name;
   const password = req.body.password;
-  const address = req.body.address;
-  const contact = req.body.contact;
   bcrypt
     .hash(password, 12)
     .then((hashedPw) => {
-      const college = new College({
-        email,
+      const user = new User({
+        email: email,
         password: hashedPw,
-        name,
-        address,
-        contact
+        name: name,
       });
-      return college.save();
+      return user.save();
     })
     .then((result) => {
-      res.status(201).json({ message: "College created!", collegeId: result._id });
+      res.status(201).json({ message: "User created!", userId: result._id });
     })
     .catch((err) => {
       if (!err.statusCode) {
@@ -58,7 +56,6 @@ exports.collegeSignup = (req, res, next) => {
       next(err);
     });
 };
-
 
 exports.collegeLogin = (req, res, next) => {
   const email = req.body.email;
@@ -69,7 +66,9 @@ exports.collegeLogin = (req, res, next) => {
   College.findOne({ email: email })
     .then((college) => {
       if (!college) {
-        const error = new Error("A college with this email could not be found.");
+        const error = new Error(
+          "A College with this email could not be found."
+        );
         error.statusCode = 401;
         throw error;
       }
@@ -88,10 +87,12 @@ exports.collegeLogin = (req, res, next) => {
           collegeId: loadedCollege._id.toString(),
         },
         "somesupersecretsecret",
-        { expiresIn: "1h" }
+        { expiresIn: "12h" }
       );
       res.cookie("token", token, { maxAge: 3600000000, httpOnly: true });
-      res.status(200).json({ token: token, college: loadedCollege._id.toString() });
+      res
+        .status(200)
+        .json({ token: token, collegeId: loadedCollege._id.toString() });
     })
     .catch((err) => {
       if (!err.statusCode) {
