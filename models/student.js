@@ -10,7 +10,10 @@ const studentSchema = new Schema(
       required: true,
     },
 
-    goingClass: Number,
+    goingClass: {
+      type: Number,
+      default: 1
+    },
 
     stream: String,
 

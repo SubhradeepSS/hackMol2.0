@@ -29,6 +29,8 @@ exports.updateStudentHistory = async (req, res, next) => {
     present.collegeId = mongoose.Types.ObjectId(collegeId.toString());
 
     student.history.push(present);
+    student.goingClass++;
+    
     await student.save();
 
     return res.status(201).json({
