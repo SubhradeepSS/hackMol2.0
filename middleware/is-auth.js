@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
   let decodedToken;
   try {
     decodedToken = req.cookies.token;
-    console.log(decodedToken);
+    // console.log(decodedToken);
     decodedToken = jwt.verify(decodedToken, "somesupersecretsecret");
   } catch (err) {
     err.statusCode = 500;
